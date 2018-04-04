@@ -1,0 +1,30 @@
+version: "2"
+services:
+  leo_web:
+    build: ./web
+    container_name: leo_web
+    ports:
+      - "32776:80"
+    depends_on:
+      - leo_db
+    links:
+      - leo_db
+    volumes:
+      - ./leo:/var/www/leo
+    #restart: always
+
+  leo_db:
+    build: ./db
+    container_name: leo_db
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: leo
+      #MYSQL_USER: leo
+      #MYSQL_PASSWORD: leo
+      MYSQL_HOST: "localhost"
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    #restart: always
